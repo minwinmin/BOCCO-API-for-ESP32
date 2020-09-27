@@ -235,3 +235,24 @@ bool BoccoAPI::postMessageText(const char* text){
 
   return true;
 }
+
+/** 最新のメッセージを取得する **/
+String BoccoAPI::getMessageText(){
+  //GETパラメータを作る
+  const String data = "access_token="+this->accessToken;
+  const String url = BoccoAPI::API_ROOMS+"/"+this->firstRoomId+BoccoAPI::API_ROOMS_MESSAGES;
+
+  //JSONを取得
+  String json = this->get(url,data,BoccoAPI::RETRY_CNT);
+  
+  const size_t capacity = 50000;
+  DynamicJsonDocument doc(capacity);
+  deserializeJson(doc, json);
+  //30番目の要素が最新らしい
+  JsonObject root_29 = doc[1];
+  const char* root_29_text = root_29["text"];
+  //抽出したtextをString型に変換
+  String root_29_text_str = root_29_text;
+
+  return root_29_text_str;
+}

@@ -21,6 +21,7 @@ public:
   void setAccessToken(const char* accessToken);
   bool getFirstRoom();
   bool postMessageText(const char* text);
+  String getMessageText();
 
 private:
   String get(String url, String data,int retryCnt);
